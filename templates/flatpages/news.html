@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+{% load cenzura %} <!-- загружаем фильтр-->
+{% load custom_tags %}<!-- Подключаем новый файл с нашим тегом -->
+
+
+{% block content %}
+    <h1 style="text-align: center;">Список новостей</h1>
+	<h3 style="text-align: center;">{% current_time '%d %b %Y' %}</h3>
+
+<hr/>
+{% if news %}
+
+        {% for post in news %}
+            <h3 style="text-align: center;">{{ post.title|censor }}</h3>
+            <p style="text-align: center;">{{ post.timeCreate|date:'d M Y, H m' }}</p>
+
+            <div align="center">
+              {% for category in post.categoryPost.all %}
+              <a href="{% url 'news:category_list' category.id %}" >{{ category }}</a>
+              {% endfor %}
+            </div>
+
+            <p style="text-align: center;">{{ post.content|truncatechars:20|censor }} {{"..."}} </p>
+            <p style="text-align: center;"><a href="{% url 'news:news_detail' post.id %}">Читать полностью</a></p>
+
+            <hr/>
+        {% endfor %}
+
+{% else %}
+    <h2>Новостей нет!</h2>
+{% endif %}
+{% endblock content %}

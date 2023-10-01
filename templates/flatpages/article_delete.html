@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<div align="center">
+  <h1>Удаление</h1>
+      {% if user.is_authenticated %}
+        <p>Вы уверены, что хотите удалить эту статью?</p>
+        <form method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить</button>
+        </form>
+      {% else %}
+        <p>У Вас не достаточно прав для удаления статьи</p>
+      {% endif %}
+</div>
+{% endblock %}
